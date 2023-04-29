@@ -9,11 +9,12 @@ three different values for eta.
 
 # Standard library
 import json
+import os
 import random
 import sys
 
 # My library
-sys.path.append('../src/')
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 import network2
 
@@ -42,7 +43,7 @@ def run_networks():
     training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
     results = []
     for eta in LEARNING_RATES:
-        print "\nTrain a network using eta = "+str(eta)
+        print("\nTrain a network using eta = "+str(eta))
         net = network2.Network([784, 30, 10])
         results.append(
             net.SGD(training_data, NUM_EPOCHS, 10, eta, lmbda=5.0,
