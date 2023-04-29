@@ -7,11 +7,12 @@ Plot graphs to illustrate the problem of overfitting.
 
 # Standard library
 import json
+import os
 import random
 import sys
 
 # My library
-sys.path.append('../src/')
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 import network2
 
@@ -159,20 +160,20 @@ def plot_overlay(test_accuracy, training_accuracy, num_epochs, xmin,
     plt.show()
 
 if __name__ == "__main__":
-    filename = raw_input("Enter a file name: ")
-    num_epochs = int(raw_input(
+    filename = input("Enter a file name: ")
+    num_epochs = int(input(
         "Enter the number of epochs to run for: "))
-    training_cost_xmin = int(raw_input(
+    training_cost_xmin = int(input(
         "training_cost_xmin (suggest 200): "))
-    test_accuracy_xmin = int(raw_input(
+    test_accuracy_xmin = int(input(
         "test_accuracy_xmin (suggest 200): "))
-    test_cost_xmin = int(raw_input(
+    test_cost_xmin = int(input(
         "test_cost_xmin (suggest 0): "))
-    training_accuracy_xmin = int(raw_input(
+    training_accuracy_xmin = int(input(
         "training_accuracy_xmin (suggest 0): "))
-    training_set_size = int(raw_input(
+    training_set_size = int(input(
         "Training set size (suggest 1000): "))
-    lmbda = float(raw_input(
+    lmbda = float(input(
         "Enter the regularization parameter, lambda (suggest: 5.0): "))
     main(filename, num_epochs, training_cost_xmin, 
          test_accuracy_xmin, test_cost_xmin, training_accuracy_xmin,

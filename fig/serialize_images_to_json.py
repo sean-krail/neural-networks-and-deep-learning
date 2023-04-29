@@ -7,11 +7,12 @@ for use with Javascript.  """
 
 #### Libraries
 # Standard library
-import json 
+import json
+import os
 import sys
 
 # My library
-sys.path.append('../src/')
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 
 # Third-party libraries
@@ -31,16 +32,14 @@ def make_data_integer(td):
     return [int(x) for x in (td*256).reshape(784).tolist()]
 
 data = {"training": [
-    {"x": [x[0] for x in training_data[j][0].tolist()],
-     "y": [y[0] for y in training_data[j][1].tolist()]}
-    for j in xrange(NTD)],
+    {"x": [float(x[0]) for x in training_data[j][0].tolist()],
+     "y": [float(y[0]) for y in training_data[j][1].tolist()]}
+    for j in range(NTD)],
         "validation": [
-    {"x": [x[0] for x in validation_data[j][0].tolist()],
-     "y": validation_data[j][1]}
-            for j in xrange(NVD)]}
+    {"x": [float(x[0]) for x in validation_data[j][0].tolist()],
+     "y": float(validation_data[j][1])}
+            for j in range(NVD)]}
 
 f = open("data_1000.json", "w")
 json.dump(data, f)
 f.close()
-
-

@@ -8,11 +8,12 @@ training sets are used.
 
 # Standard library
 import json
+import os
 import random
 import sys
 
 # My library
-sys.path.append('../src/')
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 import network2
 
@@ -37,12 +38,12 @@ def run_networks():
     net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost())
     accuracies = []
     for size in SIZES:
-        print "\n\nTraining network with data set size %s" % size
+        print("\n\nTraining network with data set size %s" % size)
         net.large_weight_initializer()
-        num_epochs = 1500000 / size 
+        num_epochs = int(1500000 / size) 
         net.SGD(training_data[:size], num_epochs, 10, 0.5, lmbda = size*0.0001)
         accuracy = net.accuracy(validation_data) / 100.0
-        print "Accuracy was %s percent" % accuracy
+        print("Accuracy was %s percent" % accuracy)
         accuracies.append(accuracy)
     f = open("more_data.json", "w")
     json.dump(accuracies, f)
@@ -53,13 +54,13 @@ def run_svms():
         = mnist_loader.load_data()
     accuracies = []
     for size in SIZES:
-        print "\n\nTraining SVM with data set size %s" % size
+        print("\n\nTraining SVM with data set size %s" % size)
         clf = svm.SVC()
         clf.fit(svm_training_data[0][:size], svm_training_data[1][:size])
         predictions = [int(a) for a in clf.predict(svm_validation_data[0])]
         accuracy = sum(int(a == y) for a, y in 
                        zip(predictions, svm_validation_data[1])) / 100.0
-        print "Accuracy was %s percent" % accuracy
+        print("Accuracy was %s percent" % accuracy)
         accuracies.append(accuracy)
     f = open("more_data_svm.json", "w")
     json.dump(accuracies, f)

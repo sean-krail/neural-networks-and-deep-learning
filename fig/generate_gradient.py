@@ -9,14 +9,16 @@ error terms \delta^l_j = \partial C / \partial z^l_j = \partial C /
 
 #### Libraries
 # Standard library
+import functools
 import json
 import math
 import random
+import os
 import shutil
 import sys
-sys.path.append("../src/")
 
 # My library
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 import network2
 
@@ -30,14 +32,14 @@ def main():
     td = full_td[:1000] # Just use the first 1000 items of training data
     epochs = 500 # Number of epochs to train for
 
-    print "\nTwo hidden layers:"
+    print("\nTwo hidden layers:")
     net = network2.Network([784, 30, 30, 10])
     initial_norms(td, net)
     abbreviated_gradient = [
         ag[:6] for ag in get_average_gradient(net, td)[:-1]] 
-    print "Saving the averaged gradient for the top six neurons in each "+\
+    print("Saving the averaged gradient for the top six neurons in each "+\
         "layer.\nWARNING: This will affect the look of the book, so be "+\
-        "sure to check the\nrelevant material (early chapter 5)."
+        "sure to check the\nrelevant material (early chapter 5).")
     f = open("initial_gradient.json", "w")
     json.dump(abbreviated_gradient, f)
     f.close()
@@ -46,14 +48,14 @@ def main():
     plot_training(
         epochs, "norms_during_training_2_layers.json", 2)
 
-    print "\nThree hidden layers:"
+    print("\nThree hidden layers:")
     net = network2.Network([784, 30, 30, 30, 10])
     initial_norms(td, net)
     training(td, net, epochs, "norms_during_training_3_layers.json")
     plot_training(
         epochs, "norms_during_training_3_layers.json", 3)
 
-    print "\nFour hidden layers:"
+    print("\nFour hidden layers:")
     net = network2.Network([784, 30, 30, 30, 30, 10])
     initial_norms(td, net)
     training(td, net, epochs, 
@@ -64,14 +66,14 @@ def main():
 def initial_norms(training_data, net):
     average_gradient = get_average_gradient(net, training_data)
     norms = [list_norm(avg) for avg in average_gradient[:-1]]
-    print "Average gradient for the hidden layers: "+str(norms)
+    print("Average gradient for the hidden layers: "+str(norms))
     
 def training(training_data, net, epochs, filename):
     norms = []
     for j in range(epochs):
         average_gradient = get_average_gradient(net, training_data)
         norms.append([list_norm(avg) for avg in average_gradient[:-1]])
-        print "Epoch: %s" % j
+        print("Epoch: %s" % j)
         net.SGD(training_data, 1, 1000, 0.1, lmbda=5.0)
     f = open(filename, "w")
     json.dump(norms, f)
@@ -110,7 +112,7 @@ def zip_sum(a, b):
     return [x+y for (x, y) in zip(a, b)]
 
 def list_sum(l):
-    return reduce(zip_sum, l)
+    return functools.reduce(zip_sum, l)
 
 def list_norm(l):
     return math.sqrt(sum([x*x for x in l]))

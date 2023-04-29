@@ -11,11 +11,12 @@ square root of the number of input neurons.
 
 # Standard library
 import json
+import os
 import random
 import sys
 
 # My library
-sys.path.append('../src/')
+sys.path.append(os.path.join(os.path.dirname(sys.path[0]),'src'))
 import mnist_loader
 import network2
 
@@ -38,12 +39,12 @@ def run_network(filename, n, eta):
     np.random.seed(12345678)
     training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
     net = network2.Network([784, n, 10], cost=network2.CrossEntropyCost)
-    print "Train the network using the default starting weights."
+    print("Train the network using the default starting weights.")
     default_vc, default_va, default_tc, default_ta \
         = net.SGD(training_data, 30, 10, eta, lmbda=5.0,
                   evaluation_data=validation_data, 
                   monitor_evaluation_accuracy=True)
-    print "Train the network using the large starting weights."
+    print("Train the network using the large starting weights.")
     net.large_weight_initializer()
     large_vc, large_va, large_tc, large_ta \
         = net.SGD(training_data, 30, 10, eta, lmbda=5.0,
