@@ -7,10 +7,11 @@ data set, using an SVM classifier."""
 
 #### Libraries
 # My libraries
-import mnist_loader 
+import mnist_loader
 
 # Third-party libraries
 from sklearn import svm
+
 
 def svm_baseline():
     training_data, validation_data, test_data = mnist_loader.load_data()
@@ -23,6 +24,6 @@ def svm_baseline():
     print("Baseline classifier using an SVM.")
     print("%s of %s values correct." % (num_correct, len(test_data[1])))
 
+
 if __name__ == "__main__":
     svm_baseline()
-    

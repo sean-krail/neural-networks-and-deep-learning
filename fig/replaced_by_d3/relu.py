@@ -8,7 +8,7 @@ unit."""
 import numpy as np
 import matplotlib.pyplot as plt
 
-z = np.arange(-2, 2, .1)
+z = np.arange(-2, 2, 0.1)
 zero = np.zeros(len(z))
 y = np.max([zero, z], axis=0)
 
@@ -18,7 +18,7 @@ ax.plot(z, y)
 ax.set_ylim([-2.0, 2.0])
 ax.set_xlim([-2.0, 2.0])
 ax.grid(True)
-ax.set_xlabel('z')
-ax.set_title('Rectified linear unit')
+ax.set_xlabel("z")
+ax.set_title("Rectified linear unit")
 
 plt.show()
